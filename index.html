@@ -293,10 +293,10 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
     <div class="fmt"><span class="ratio">16:9</span>YouTube · Publicidad · Eventos</div>
     <div class="grid-h">
       <article class="card">
-        <div class="frame f2"><span class="slot">Video 05</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div><span class="dur">12:40</span></div>
+        <div class="frame f2" data-yt="d-DEPvXgs9E" aria-label="Reproducir video"><span class="slot">Video 05</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div></div>
         <div><h3 class="ph">[Título del video]</h3><p class="client">para <span class="ph">[Canal o marca]</span></p></div>
         <div class="tags"><span class="tag">Corte</span><span class="tag">Color</span><span class="tag">Sonido</span><span class="tag">Miniatura</span></div>
-        <span class="pending">Enlace pendiente</span>
+        <a class="watch" href="https://www.youtube.com/watch?v=d-DEPvXgs9E" target="_blank" rel="noopener">Ver en YouTube ↗</a>
       </article>
       <article class="card">
         <div class="frame f1"><span class="slot">Video 06</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div><span class="dur">01:30</span></div>
@@ -424,7 +424,7 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
     var short = fr.closest('.grid-v');
     var img = document.createElement('img');
     img.className = 'thumb'; img.alt = ''; img.loading = 'lazy';
-    img.src = 'https://i.ytimg.com/vi/' + id + '/' + (short ? 'oar2.jpg' : 'hqdefault.jpg');
+    img.src = 'https://i.ytimg.com/vi/' + id + '/' + (short ? 'oar2.jpg' : 'maxresdefault.jpg');
     img.onerror = function () { img.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg'; img.onerror = null; };
     fr.insertBefore(img, fr.firstChild);
     fr.setAttribute('role', 'button'); fr.tabIndex = 0;
