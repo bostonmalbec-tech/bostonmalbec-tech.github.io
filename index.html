@@ -80,7 +80,7 @@ p { margin: 0; }
 header .wrap { padding-block: 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .brand { font-family: var(--font-display); font-weight: 800; font-stretch: 112%; font-size: var(--s3); letter-spacing: -.01em; }
 .brand small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-stretch: 100%; }
-nav { display: flex; gap: 20px; font-size: var(--s1); }
+nav { display: flex; gap: 8px 20px; flex-wrap: wrap; font-size: var(--s1); }
 nav a { text-decoration: none; color: var(--muted); }
 nav a:hover { color: var(--fg); }
 
@@ -201,6 +201,7 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
       <a href="#trabajos">Trabajos</a>
       <a href="#servicios">Servicios</a>
       <a href="#contacto">Contacto</a>
+      <a href="https://www.instagram.com/bostonmori/" target="_blank" rel="noopener">Instagram ↗</a>
     </nav>
   </div>
 </header>
@@ -383,7 +384,7 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
     <div class="contact">
       <div class="cbox"><span class="k">Correo</span><span class="v ph" id="c-mail">[tu@correo.com]</span><button class="btn copy" type="button" id="copy-mail" data-target="c-mail">Copiar</button></div>
       <div class="cbox"><span class="k">WhatsApp</span><span class="v ph" id="c-wa">[+00 000 000 0000]</span><button class="btn copy" type="button" id="copy-wa" data-target="c-wa">Copiar</button></div>
-      <div class="cbox"><span class="k">Instagram</span><span class="v ph" id="c-ig">[@tuusuario]</span><button class="btn copy" type="button" id="copy-ig" data-target="c-ig">Copiar</button></div>
+      <div class="cbox"><span class="k">Instagram</span><span class="v" id="c-ig">@bostonmori</span><div class="cta-row"><a class="btn copy primary" href="https://www.instagram.com/bostonmori/" target="_blank" rel="noopener">Ver Instagram ↗</a><button class="btn copy" type="button" id="copy-ig" data-target="c-ig">Copiar</button></div></div>
     </div>
   </div>
 </section>
@@ -391,6 +392,7 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
 <footer>
   <div class="wrap">
     <span>[Tu nombre] · Editor de video</span>
+    <a href="https://www.instagram.com/bostonmori/" target="_blank" rel="noopener">@bostonmori en Instagram</a>
     <span class="mono">FIN DE SECUENCIA</span>
   </div>
 </footer>
