@@ -427,7 +427,7 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
     var img = document.createElement('img');
     img.className = 'thumb'; img.alt = ''; img.loading = 'lazy';
     img.src = 'https://i.ytimg.com/vi/' + id + '/' + (short ? 'oar2.jpg' : 'maxresdefault.jpg');
-    img.onerror = function () { img.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg'; img.onerror = null; };
+    img.onerror = function () { img.onerror = function () { img.remove(); }; img.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg'; };
     fr.insertBefore(img, fr.firstChild);
     fr.setAttribute('role', 'button'); fr.tabIndex = 0;
     var play = function () {
