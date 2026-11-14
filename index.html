@@ -414,6 +414,12 @@ footer a { color: var(--ink); }
         <div class="tags"><span class="tag">Edición</span><span class="tag">Short</span></div>
         <a class="watch" href="https://www.youtube.com/shorts/yppIO3SBbK0" target="_blank" rel="noopener">Ver en YouTube ↗</a>
       </article>
+      <article class="card">
+        <div class="frame" data-ig="DSqX7L0Ca7G" aria-label="Reproducir reel de @elgochoruben"><span class="slot">Reel</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div></div>
+        <div><h3>Reel para @elgochoruben</h3><p class="client">para <a href="https://www.instagram.com/elgochoruben/" target="_blank" rel="noopener">@elgochoruben</a> · Instagram Reels</p></div>
+        <div class="tags"><span class="tag">Edición</span><span class="tag">Reel</span></div>
+        <a class="watch" href="https://www.instagram.com/reel/DSqX7L0Ca7G/" target="_blank" rel="noopener">Ver en Instagram ↗</a>
+      </article>
     </div>
   </div>
 </section>
@@ -433,6 +439,7 @@ footer a { color: var(--ink); }
       <a class="chip" href="https://www.youtube.com/@WillyrexMinecraft" target="_blank" rel="noopener">Willyrex Minecraft</a>
       <a class="chip" href="https://www.youtube.com/@Willyrex" target="_blank" rel="noopener">Willyrex</a>
       <a class="chip" href="https://www.youtube.com/@LucastaYT" target="_blank" rel="noopener">Lucasta</a>
+      <a class="chip" href="https://www.instagram.com/elgochoruben/" target="_blank" rel="noopener">@elgochoruben</a>
     </div>
   </div>
 </section>
@@ -539,6 +546,21 @@ footer a { color: var(--ink); }
       f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
       f.allowFullscreen = true; f.title = 'Video';
       fr.innerHTML = ''; fr.appendChild(f); fr.removeAttribute('role'); fr.style.cursor = 'auto';
+    };
+    fr.addEventListener('click', play, { once: true });
+    fr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } });
+  });
+
+  // Reels de Instagram: <div class="frame" data-ig="ID_DEL_REEL">
+  document.querySelectorAll('.frame[data-ig]').forEach(function (fr) {
+    fr.setAttribute('role', 'button'); fr.tabIndex = 0; fr.style.cursor = 'pointer';
+    var play = function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.instagram.com/reel/' + fr.dataset.ig + '/embed/';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true; f.title = 'Reel de Instagram';
+      fr.innerHTML = ''; fr.appendChild(f); fr.removeAttribute('role'); fr.style.cursor = 'auto';
+      fr.style.background = '#fff';
     };
     fr.addEventListener('click', play, { once: true });
     fr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); } });
