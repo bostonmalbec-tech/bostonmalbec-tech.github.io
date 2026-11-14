@@ -166,7 +166,9 @@ section.block + section.block .wrap { border-top: 1px solid var(--line); }
 
 /* Clientes, herramientas */
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { padding: 8px 14px; border: 1px dashed var(--line); border-radius: 999px; font-size: var(--s1); color: var(--muted); }
+.chip { padding: 8px 14px; border: 1px dashed var(--line); border-radius: 999px; font-size: var(--s1); color: var(--muted); text-decoration: none; }
+a.chip { border-style: solid; color: var(--fg); }
+a.chip:hover { border-color: var(--accent); }
 .tools { display: flex; flex-wrap: wrap; gap: 10px; }
 .tool { padding: 8px 14px; border: 1px solid var(--line); border-radius: 6px; font-family: var(--font-mono); font-size: .8rem; }
 
@@ -293,16 +295,16 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
     <div class="fmt"><span class="ratio">16:9</span>YouTube · Publicidad · Eventos</div>
     <div class="grid-h">
       <article class="card">
-        <div class="frame f2" data-yt="d-DEPvXgs9E" aria-label="Reproducir video"><span class="slot">Video 05</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div></div>
-        <div><h3 class="ph">[Título del video]</h3><p class="client">para <span class="ph">[Canal o marca]</span></p></div>
-        <div class="tags"><span class="tag">Corte</span><span class="tag">Color</span><span class="tag">Sonido</span><span class="tag">Miniatura</span></div>
+        <div class="frame f2" data-yt="d-DEPvXgs9E" aria-label="Reproducir: Entré a la Élite 🤯 - BarcaGamer"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div></div>
+        <div><h3>Entré a la Élite 🤯 - BarcaGamer</h3><p class="client">para <a href="https://www.youtube.com/@BarcaGamer" target="_blank" rel="noopener">BarcaGamer</a> · YouTube</p></div>
+        <div class="tags"><span class="tag">Edición</span><span class="tag">Gaming</span></div>
         <a class="watch" href="https://www.youtube.com/watch?v=d-DEPvXgs9E" target="_blank" rel="noopener">Ver en YouTube ↗</a>
       </article>
       <article class="card">
-        <div class="frame f1"><span class="slot">Video 06</span><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div><span class="dur">01:30</span></div>
-        <div><h3 class="ph">[Título del video]</h3><p class="client">para <span class="ph">[Canal o marca]</span></p></div>
-        <div class="tags"><span class="tag">Corte</span><span class="tag">Motion graphics</span><span class="tag">Color</span></div>
-        <span class="pending">Enlace pendiente</span>
+        <div class="frame f1" data-yt="ytpF5BKilpY" aria-label="Reproducir: Fusioné los BRAINROTS SECRETOS más OP para CONSEGUIR un BRAINROT CELESTIAL en Steal a Brainrot"><div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div></div>
+        <div><h3>Fusioné los BRAINROTS SECRETOS más OP para CONSEGUIR un BRAINROT CELESTIAL en Steal a Brainrot</h3><p class="client">para <a href="https://www.youtube.com/@Maxiatico" target="_blank" rel="noopener">MaxiBlox</a> · YouTube</p></div>
+        <div class="tags"><span class="tag">Edición</span><span class="tag">Gaming</span></div>
+        <a class="watch" href="https://www.youtube.com/watch?v=ytpF5BKilpY" target="_blank" rel="noopener">Ver en YouTube ↗</a>
       </article>
     </div>
   </div>
@@ -315,8 +317,8 @@ footer .wrap { padding-block: 32px; border-top: 1px solid var(--line); display: 
       <p>Creadores, negocios y marcas que confiaron en mi edición.</p>
     </div>
     <div class="chips">
-      <span class="chip ph">[@cliente 1]</span>
-      <span class="chip ph">[@cliente 2]</span>
+      <a class="chip" href="https://www.youtube.com/@BarcaGamer" target="_blank" rel="noopener">BarcaGamer</a>
+      <a class="chip" href="https://www.youtube.com/@Maxiatico" target="_blank" rel="noopener">MaxiBlox</a>
       <span class="chip ph">[@cliente 3]</span>
       <span class="chip ph">[@cliente 4]</span>
       <span class="chip ph">[@cliente 5]</span>
