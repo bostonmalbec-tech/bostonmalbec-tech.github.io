@@ -9,12 +9,12 @@
 <meta property="og:description" content="Casi 5 años editando videos para creadores de contenido y marcas. Mira mis proyectos.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://bostonmalbec-tech.github.io/">
-<meta property="og:image" content="https://bostonmalbec-tech.github.io/og-image.png?v=2">
+<meta property="og:image" content="https://bostonmalbec-tech.github.io/og-image.png?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Hola, soy Boston. Editor de video.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bostonmalbec-tech.github.io/og-image.png?v=2">
+<meta name="twitter:image" content="https://bostonmalbec-tech.github.io/og-image.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Inter:wght@400;500;600;700&display=swap">
@@ -93,21 +93,19 @@ nav a:hover { opacity: 1; background: var(--grad); -webkit-background-clip: text
 .hero { overflow-x: clip; }
 .orb-wrap::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: 2%; height: 9%; border-radius: 50%; background: rgba(0,0,0,.75); filter: blur(14px); }
 .orb {
-  position: absolute; inset: 8%; border-radius: 50%; z-index: 1;
-  background:
-    radial-gradient(circle at 32% 26%, rgba(255,255,255,.85) 0 5%, rgba(255,255,255,.25) 13%, transparent 30%),
-    radial-gradient(circle at 70% 82%, rgba(255,138,61,.9), transparent 55%),
-    radial-gradient(circle at 50% 50%, #C83BE0 0%, #7A3BE8 55%, #2B1A6B 100%);
-  box-shadow: inset -18px -26px 50px rgba(20,8,60,.75), inset 12px 16px 30px rgba(255,255,255,.18), 0 30px 70px rgba(200,59,224,.35);
-  display: grid; place-items: center;
+  position: absolute; inset: 8%; border-radius: 50%; z-index: 1; padding: 6px;
+  background: var(--grad);
+  box-shadow: 0 30px 70px rgba(200,59,224,.35), 0 0 0 10px rgba(10,10,11,.6);
 }
-.orb svg { width: 34%; height: 34%; margin-left: 7%; filter: drop-shadow(6px 10px 10px rgba(20,8,60,.6)); }
+.orb img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 35%; background: var(--surface-2); }
+.orb .badge { position: absolute; right: 2%; bottom: 6%; width: 24%; aspect-ratio: 1; border-radius: 50%; background: var(--grad); border: 5px solid var(--bg); display: grid; place-items: center; box-shadow: 0 10px 24px rgba(0,0,0,.45); }
+.orb .badge svg { width: 42%; height: 42%; margin-left: 8%; }
 .ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(236,236,239,.14); z-index: 0; }
 .ring.r2 { inset: -9%; border-style: dashed; border-color: rgba(236,236,239,.1); }
 .chip3d { position: absolute; z-index: 2; padding: 6px 12px; border-radius: 999px; background: rgba(28,28,31,.9); border: 1px solid var(--line); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 8px 20px rgba(0,0,0,.4); }
-.chip3d.c1 { top: 6%; left: -4%; } .chip3d.c2 { bottom: 26%; right: -14%; } .chip3d.c3 { bottom: 8%; left: 2%; }
+.chip3d.c1 { top: 6%; left: -4%; } .chip3d.c2 { top: 16%; right: -16%; } .chip3d.c3 { bottom: 8%; left: 2%; }
 .chip3d i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--grad); margin-right: 7px; vertical-align: 1px; }
-@media (max-width: 420px) { .chip3d.c2 { right: -6%; } }
+@media (max-width: 420px) { .chip3d.c2 { right: -8%; } }
 @media (prefers-reduced-motion: no-preference) {
   .orb { animation: bob 6s ease-in-out infinite; }
   .ring.r2 { animation: turn 40s linear infinite; }
@@ -217,13 +215,13 @@ footer a { color: var(--fg); text-decoration: none; }
     <h1>HOLA, SOY BOSTON</h1>
     <div class="stage">
       <p class="intro upper">Editor de video de Guadalajara, México. Casi 5 años haciendo videos de YouTube, reels y TikToks que la gente ve hasta el final 😏</p>
-      <div class="orb-wrap" aria-hidden="true">
-        <div class="ring r2"></div>
-        <div class="ring"></div>
-        <div class="orb"><svg viewBox="0 0 24 24"><path d="M6 3.5c0-.8.9-1.3 1.6-.9l13 8.1c.6.4.6 1.3 0 1.7l-13 8.1c-.7.4-1.6-.1-1.6-.9z" fill="#fff"/></svg></div>
-        <span class="chip3d c1"><i></i>YouTube</span>
-        <span class="chip3d c2"><i></i>Reels · TikTok</span>
-        <span class="chip3d c3"><i></i>Shorts</span>
+      <div class="orb-wrap">
+        <div class="ring r2" aria-hidden="true"></div>
+        <div class="ring" aria-hidden="true"></div>
+        <div class="orb"><img src="img/boston.jpg" alt="Foto de Boston" width="720" height="720"><span class="badge"><svg viewBox="0 0 24 24"><path d="M6 3.5c0-.8.9-1.3 1.6-.9l13 8.1c.6.4.6 1.3 0 1.7l-13 8.1c-.7.4-1.6-.1-1.6-.9z" fill="#fff"/></svg></span></div>
+        <span class="chip3d c1" aria-hidden="true"><i></i>YouTube</span>
+        <span class="chip3d c2" aria-hidden="true"><i></i>Reels · TikTok</span>
+        <span class="chip3d c3" aria-hidden="true"><i></i>Shorts</span>
       </div>
       <div class="cta"><a class="btn-grad upper" href="#contacto">Contáctame</a></div>
     </div>
