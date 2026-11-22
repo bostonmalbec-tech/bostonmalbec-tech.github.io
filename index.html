@@ -106,11 +106,34 @@ nav a:hover { opacity: 1; background: var(--grad); -webkit-background-clip: text
 .chip3d.c1 { top: 6%; left: -4%; } .chip3d.c2 { top: 16%; right: -16%; } .chip3d.c3 { bottom: 8%; left: 2%; }
 .chip3d i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--grad); margin-right: 7px; vertical-align: 1px; }
 @media (max-width: 420px) { .chip3d.c2 { right: -8%; } }
+/* Foto animada: entra con pop, flota, gira en 3D hacia el cursor y hace parallax al bajar */
+@property --rx { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
+@property --ry { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
+.orb-wrap { perspective: 900px; }
+.orb { transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d; will-change: transform; }
+.orb img { transform: translate(calc(var(--ry) / 1deg * .35px), calc(var(--rx) / 1deg * -.35px)) scale(1.1); }
+.orb .shine { position: absolute; inset: 6px; border-radius: 50%; pointer-events: none; mix-blend-mode: soft-light;
+  background: radial-gradient(circle at calc(50% + var(--ry) / 1deg * 2.2%) calc(40% - var(--rx) / 1deg * 2.2%), rgba(255,255,255,.75), transparent 45%); }
+.orb .badge { transform: translateZ(40px); }
+.hero h1, .orb-wrap, .chip3d { will-change: transform, opacity, filter; }
 @media (prefers-reduced-motion: no-preference) {
-  .orb { animation: bob 6s ease-in-out infinite; }
+  .orb-wrap { animation: pop .9s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .orb { animation: bob 6s ease-in-out infinite, sway 7s ease-in-out infinite; }
+  .orb.tracking { animation: bob 6s ease-in-out infinite; transition: --rx .35s ease-out, --ry .35s ease-out; }
   .ring.r2 { animation: turn 40s linear infinite; }
-  @keyframes bob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-12px) rotate(-3deg); } }
+  .chip3d { animation: chipin .7s ease-out both; }
+  .chip3d.c1 { animation-delay: .35s; } .chip3d.c2 { animation-delay: .5s; } .chip3d.c3 { animation-delay: .65s; }
+  @keyframes pop { from { opacity: 0; scale: .55; } 70% { opacity: 1; scale: 1.06; } to { opacity: 1; scale: 1; } }
+  @keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+  @keyframes sway { 0%, 100% { --ry: -12deg; --rx: 4deg; } 50% { --ry: 12deg; --rx: -4deg; } }
   @keyframes turn { to { transform: rotate(360deg); } }
+  @keyframes chipin { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+}
+
+/* Títulos que se rellenan al aparecer */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on .sec-head h2 { color: transparent; -webkit-text-stroke: 1.5px #6A6A73; transition: color .9s ease, -webkit-text-stroke-color .9s ease, translate .9s ease; translate: 0 18px; }
+  .reveal-on .sec-head h2.in { color: #D9D9DE; -webkit-text-stroke-color: transparent; translate: 0 0; }
 }
 
 /* Números */
@@ -218,7 +241,7 @@ footer a { color: var(--fg); text-decoration: none; }
       <div class="orb-wrap">
         <div class="ring r2" aria-hidden="true"></div>
         <div class="ring" aria-hidden="true"></div>
-        <div class="orb"><img src="img/boston.jpg" alt="Foto de Boston" width="720" height="720"><span class="badge"><svg viewBox="0 0 24 24"><path d="M6 3.5c0-.8.9-1.3 1.6-.9l13 8.1c.6.4.6 1.3 0 1.7l-13 8.1c-.7.4-1.6-.1-1.6-.9z" fill="#fff"/></svg></span></div>
+        <div class="orb"><img src="img/boston.jpg" alt="Foto de Boston" width="720" height="720"><span class="shine" aria-hidden="true"></span><span class="badge"><svg viewBox="0 0 24 24"><path d="M6 3.5c0-.8.9-1.3 1.6-.9l13 8.1c.6.4.6 1.3 0 1.7l-13 8.1c-.7.4-1.6-.1-1.6-.9z" fill="#fff"/></svg></span></div>
         <span class="chip3d c1" aria-hidden="true"><i></i>YouTube</span>
         <span class="chip3d c2" aria-hidden="true"><i></i>Reels · TikTok</span>
         <span class="chip3d c3" aria-hidden="true"><i></i>Shorts</span>
@@ -486,6 +509,62 @@ footer a { color: var(--fg); text-decoration: none; }
       } catch (e) { fallback(); }
     });
   });
+})();
+</script>
+<script>
+(function () {
+  if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var orb = document.querySelector('.orb');
+  var wrap = document.querySelector('.orb-wrap');
+  var title = document.querySelector('.hero h1');
+  var chips = document.querySelectorAll('.chip3d');
+  var hero = document.querySelector('.hero');
+
+  // 1) La foto gira hacia el cursor (solo con mouse)
+  if (orb && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    orb.classList.add('tracking');
+    window.addEventListener('pointermove', function (e) {
+      var r = orb.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / (window.innerWidth / 2);
+      var dy = (e.clientY - (r.top + r.height / 2)) / (window.innerHeight / 2);
+      dx = Math.max(-1, Math.min(1, dx)); dy = Math.max(-1, Math.min(1, dy));
+      orb.style.setProperty('--ry', (dx * 22).toFixed(2) + 'deg');
+      orb.style.setProperty('--rx', (-dy * 16).toFixed(2) + 'deg');
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () {
+      orb.style.setProperty('--ry', '0deg'); orb.style.setProperty('--rx', '0deg');
+    });
+  }
+
+  // 2) Parallax al bajar: el título se desenfoca y la foto baja más lento
+  var ticking = false;
+  function onScroll() {
+    ticking = false;
+    if (!hero) return;
+    var h = hero.offsetHeight || 1;
+    var p = Math.max(0, Math.min(1, window.scrollY / (h * 0.85)));
+    if (title) {
+      title.style.opacity = (1 - p * 0.9).toFixed(3);
+      title.style.filter = 'blur(' + (p * 10).toFixed(1) + 'px)';
+      title.style.translate = '0 ' + (-p * 70).toFixed(1) + 'px';
+    }
+    if (wrap) { wrap.style.transform = 'translateY(' + (p * 110).toFixed(1) + 'px) scale(' + (1 - p * 0.12).toFixed(3) + ')'; }
+    chips.forEach(function (c, i) {
+      var dir = i === 1 ? 1 : -1;
+      c.style.transform = 'translate(' + (dir * p * 50).toFixed(1) + 'px, ' + (-p * 30).toFixed(1) + 'px)';
+    });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+
+  // 3) Títulos de sección: de contorno a relleno al entrar en pantalla
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-on');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.35 });
+    document.querySelectorAll('.sec-head h2').forEach(function (h) { io.observe(h); });
+  }
 })();
 </script>
 </body>
