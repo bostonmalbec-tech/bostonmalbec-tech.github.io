@@ -143,28 +143,21 @@ def frame(v):
 
 # ---------- páginas ----------
 def page_home(videos, groups):
-    feat_chan = FEATURED_CHANNEL if FEATURED_CHANNEL in groups else next(iter(groups))
-    feat = next(v for v in groups[feat_chan] if v['platform'] == 'youtube')
-    others = [v for v in videos if v is not feat and v['platform'] == 'youtube'][:8]
-    # posiciones de las miniaturas flotantes (x, y en % del escenario, ancho en vw, profundidad, giro)
-    slots = [(-41, -9, 4.2, .9, 26), (-37, -3, 5.4, .7, 22), (-27, -12, 2.6, 1, 18), (-22.5, -2, 7.6, .45, 12),
-             (22.5, -2, 7.2, .45, -12), (27.5, -11, 2.4, 1, -18), (33, -4, 3.6, .8, -22), (37.5, -7, 3.4, .95, -26)]
-    floats = ''
-    for i, (v, (x, y, w, d, r)) in enumerate(zip(others, slots)):
-        floats += (f'<a class="float" href="trabajos/{slug(v["channel"])}.html" style="--x:{x}%;--y:{y}%;--w:{w}vw;--d:{d};--r:{r}deg;--i:{i + 2}" '
-                   f'data-depth="{d}" aria-label="{e(v["channel"])}: {e(v["title"])}">{img(v, "", lazy=False)}</a>\n      ')
+    ring = [v for v in videos if v['platform'] == 'youtube'][:12]
+    items = ''
+    for i, v in enumerate(ring):
+        items += (f'<a class="ring-item" href="trabajos/{slug(v["channel"])}.html" data-i="{i}" '
+                  f'aria-label="{e(v["channel"])}: {e(v["title"])}">{img(v, "", lazy=False)}'
+                  f'<span class="ring-cap">{e(v["channel"])}</span></a>\n      ')
     return (head('Boston · Editor de video', 'Portafolio de Boston, editor de video de Guadalajara, México: YouTube, reels, TikTok y Shorts.', '', '')
-            + '<body class="home">\n' + header('', 'home') + f'''<main class="stage" aria-label="Proyecto destacado">
-  <div class="scene">
-      {floats}<article class="feature" data-depth=".25" style="--i:1">
-        <div class="bar"><span>{e(feat_chan)}</span><a class="pill dark" href="trabajos/{slug(feat_chan)}.html">Ver caso</a></div>
-        <a class="cover" href="trabajos/{slug(feat_chan)}.html" aria-label="Ver caso de {e(feat_chan)}">
-          {img(feat, "bg", lazy=False)}
-          <span class="inset" data-depth="1.1">{img(feat, "", lazy=False)}</span>
-        </a>
+            + '<body class="home">\n' + header('', 'home') + f'''<main class="stage" aria-label="Trabajos destacados">
+  <div class="scene" id="scene">
+      {items}<article class="feature">
+        <div class="bar"><span>Boston · Editor de video</span><a class="pill dark" href="trabajos.html">Ver trabajos</a></div>
+        <a class="cover" href="trabajos.html" aria-label="Ver trabajos"><img src="img/oso.png" alt="Oso polar con audífonos y claqueta, la mascota de Boston" width="900" height="900"></a>
       </article>
   </div>
-  <p class="tagline">Editor de video · Guadalajara, México · Casi 5 años haciendo videos que la gente ve hasta el final</p>
+  <p class="tagline">Guadalajara, México · Casi 5 años haciendo videos que la gente ve hasta el final</p>
 </main>
 ''' + footer(''))
 
@@ -199,7 +192,7 @@ def page_work(videos):
     for v in videos:
         tiles += (f'<a class="tile reveal" href="trabajos/{slug(v["channel"])}.html" data-cats="{keys(v)}">'
                   f'<span class="img">{img(v)}</span>'
-                  f'<span class="label"><span class="name">{e(v["title"])}</span><span class="cat">{e(v["channel"])}</span></span></a>\n    ')
+                  f'<span class="label"><span class="name">{e(v["title"])}</span><span class="cat">{e(v["channel"])} · {e(kind(v))}</span></span></a>\n    ')
     return (head('Trabajos · Boston', 'Videos que Boston editó para creadores de contenido.', '', 'trabajos.html')
             + '<body>\n' + header('', 'work') + f'''<main class="page work">
   <h1 class="title reveal">Trabajos</h1>

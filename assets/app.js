@@ -70,32 +70,60 @@
     });
   }
 
-  // Inicio: profundidad que sigue al mouse
-  var scene = document.querySelector('.scene');
-  if (!scene || reduce) return;
-  var layers = [].slice.call(scene.querySelectorAll('[data-depth]'));
-  var target = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+  // Inicio: anillo 3D de miniaturas alrededor de la pieza central
+  var scene = document.getElementById('scene');
+  if (!scene) return;
+  var items = [].slice.call(scene.querySelectorAll('.ring-item'));
+  var n = items.length;
+  if (!n) return;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var rot = 0, vel = reduce ? 0 : 0.12;          // giro automático (radianes por segundo)
+  var mouse = { x: 0, y: 0 }, cur = { x: 0, y: 0 };
+  var hovering = false, drag = null, t0 = performance.now(), last = t0;
+  items.forEach(function (it) {
+    it.addEventListener('mouseenter', function () { hovering = true; });
+    it.addEventListener('mouseleave', function () { hovering = false; });
+  });
   if (fine) {
     window.addEventListener('pointermove', function (e) {
-      target.x = (e.clientX / window.innerWidth) * 2 - 1;
-      target.y = (e.clientY / window.innerHeight) * 2 - 1;
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
     }, { passive: true });
-    document.addEventListener('pointerleave', function () { target.x = 0; target.y = 0; });
   }
-  var t0 = performance.now();
-  (function loop(now) {
-    if (!fine) {
-      var t = (now - t0) / 1000;
-      target.x = Math.sin(t / 2.6) * 0.55; target.y = Math.cos(t / 3.3) * 0.35;
-    }
-    cur.x += (target.x - cur.x) * 0.07;
-    cur.y += (target.y - cur.y) * 0.07;
-    layers.forEach(function (el) {
-      var d = parseFloat(el.getAttribute('data-depth')) || 0;
-      el.style.translate = (-cur.x * d * 46).toFixed(2) + 'px ' + (-cur.y * d * 26).toFixed(2) + 'px';
+  // Arrastrar con el dedo o el mouse hace girar el anillo
+  scene.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, rot: rot, moved: false }; });
+  window.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x;
+    if (Math.abs(dx) > 6) drag.moved = true;
+    rot = drag.rot + dx / (scene.clientWidth * 0.35);
+  }, { passive: true });
+  window.addEventListener('pointerup', function () { setTimeout(function () { drag = null; }, 0); });
+  scene.addEventListener('click', function (e) { if (drag && drag.moved) { e.preventDefault(); } }, true);
+
+  function frame(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!drag && !hovering) rot += vel * dt;
+    cur.x += (mouse.x - cur.x) * 0.06;
+    cur.y += (mouse.y - cur.y) * 0.06;
+    var w = scene.clientWidth, h = scene.clientHeight;
+    var rx = w < 700 ? w * 0.47 : Math.min(w * 0.4, 600);   // radio horizontal del anillo
+    var lift = Math.min(h * 0.06, 42);                        // las de atrás quedan un poco más arriba
+    var tilt = cur.y * 0.6;                       // inclinación con el mouse
+    items.forEach(function (it, i) {
+      var a = rot + cur.x * 0.45 + (i / n) * Math.PI * 2;
+      var d = Math.cos(a);                        // 1 = al frente, -1 = atrás
+      var x = Math.sin(a) * rx;
+      var y = -(1 - d) * lift * (1 + tilt) + cur.y * 26 * d + (w < 700 ? h * 0.1 : 0);
+      var sc = 0.32 + 0.31 * (1 + d);
+      var intro = reduce ? 1 : Math.max(0, Math.min(1, (now - t0 - 150 - i * 70) / 700));
+      var ease = 1 - Math.pow(1 - intro, 3);
+      it.style.transform = 'translate(-50%, -50%) translate3d(' + (x * ease).toFixed(1) + 'px,' + (y * ease).toFixed(1) + 'px,0) scale(' + (sc * (0.4 + 0.6 * ease)).toFixed(3) + ')';
+      it.style.zIndex = d > 0.2 ? 60 + Math.round(d * 20) : 10 + Math.round((d + 1) * 10);
+      it.style.opacity = (ease * (0.55 + 0.45 * (d + 1) / 2)).toFixed(3);
+      it.style.filter = d < -0.2 ? 'blur(' + ((-d - 0.2) * 2).toFixed(1) + 'px)' : 'none';
     });
-    scene.style.setProperty('--tilt', (cur.x * 10).toFixed(2) + 'deg');
-    requestAnimationFrame(loop);
-  })(t0);
+    if (!reduce || now - t0 < 100) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
