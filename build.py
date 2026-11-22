@@ -4,6 +4,7 @@ Uso:
   python3 build.py                 # reconstruye todas las páginas
   python3 build.py add ID [ID...]  # agrega videos de YouTube (lee título y canal) y reconstruye
 """
+import hashlib
 import html
 import json
 import os
@@ -82,6 +83,11 @@ def img(v, cls='', size='best', lazy=True):
             f'{"loading=\"lazy\" " if lazy else ""}decoding="async" onload="window.__thumbLoad&&__thumbLoad(this)" onerror="window.__thumbErr&&__thumbErr(this)">')
 
 
+def ver(path):
+    # huella del archivo para que el navegador no use una versión vieja guardada
+    return hashlib.md5(open(os.path.join(ROOT, path), 'rb').read()).hexdigest()[:8]
+
+
 # ---------- piezas compartidas ----------
 def head(title, desc, base, path=''):
     return f'''<!doctype html>
@@ -104,7 +110,7 @@ def head(title, desc, base, path=''):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="{base}assets/styles.css">
+<link rel="stylesheet" href="{base}assets/styles.css?v={ver("assets/styles.css")}">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 '''
@@ -124,7 +130,7 @@ def header(base, active):
 
 def footer(base):
     return f'''<footer class="foot">©{YEAR} Boston · Editor de video</footer>
-<script src="{base}assets/app.js" defer></script>
+<script src="{base}assets/app.js?v={ver("assets/app.js")}" defer></script>
 </body>
 </html>
 '''
